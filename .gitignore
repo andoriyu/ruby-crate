@@ -1,3 +1,6 @@
 .vagrant
 rails
 works/*
+works.yml
+*.swp
+*.swo
