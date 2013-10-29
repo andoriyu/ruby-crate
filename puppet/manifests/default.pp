@@ -9,6 +9,8 @@ Exec {
 
 # --- Preinstall Stage ---------------------------------------------------------
 
+include locales
+
 stage { 'preinstall':
   before => Stage['main']
 }

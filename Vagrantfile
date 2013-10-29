@@ -24,6 +24,7 @@ Vagrant.configure('2') do |config|
       puppet module install example42/redis;
       puppet module install maestrodev/rvm;
       puppet module install maestrodev/ant;
+      puppet module install attachmentgenie/locales;
       "
   end
   config.vm.provision :puppet do |puppet|
