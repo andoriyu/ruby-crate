@@ -4,3 +4,5 @@ works/*
 works.yml
 *.swp
 *.swo
+*.swp
+.*.swp

@@ -86,7 +86,7 @@ package { 'nodejs':
 }
 
 # --- Ruby ---------------------------------------------------------------------
-
+class { 'ant': }
 exec { 'install_rvm':
   command => "${as_vagrant} 'curl -L https://get.rvm.io | bash -s stable'",
   creates => "${home}/.rvm/bin/rvm",
@@ -103,8 +103,20 @@ exec { 'install_ruby':
   creates => "${home}/.rvm/bin/ruby",
   require => Exec['install_rvm']
 }
-
-exec { "${as_vagrant} 'gem install bundler --no-rdoc --no-ri'":
-  creates => "${home}/.rvm/bin/bundle",
-  require => Exec['install_ruby']
+exec { 'install_jruby':
+  # We run the rvm executable directly because the shell function assumes an
+  # interactive environment, in particular to display messages or ask questions.
+  # The rvm executable is more suitable for automated installs.
+  #
+  # Thanks to @mpapis for this tip.
+  command => "${as_vagrant} '${home}/.rvm/bin/rvm install jruby-1.7.6 --autolibs=enabled'",
+  creates => "${home}/.rvm/bin/jruby-1.7.6",
+  require => Exec['install_rvm']
 }
+
+
+exec { "${as_vagrant} '${home}/.rvm/bin/rvm all do gem install bundler --no-rdoc --no-ri'":
+  creates => "${home}/.rvm/bin/bundle",
+  require => [  Exec['install_ruby'], Exec['install_jruby'] ]
+}
+
