@@ -1,3 +1,4 @@
-works:
+shares:
   - name: usih 
     path: ~/Dev/InfinityCode/usih 
+ports: [3000, 9292]
